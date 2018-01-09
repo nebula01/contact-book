@@ -13,6 +13,13 @@ db.on("error", function(err){
   console.log("DB ERROR : ", err);
 });
 
+// Other settings // ejs선언은 선행 되어야 함
+app.set("view engine", "ejs");
+app.use(express.static(__dirname+"/public"));
+// bodyParser로 stream의 form data를 req.body에 옮겨 담습니다. json data, urlencoded data를 분석해서 req.body를 생성합니다.
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({extended:true})); 
+
 // mongoose.Schema 함수를 사용해서 schema object를 생성합니다.
 var contactSchema = mongoose.Schema({
   name:{type:String, required:true, unique:true},
@@ -43,12 +50,7 @@ app.get("/contacts", function(req, res){
   });
  });
 
-// Other settings
-app.set("view engine", "ejs");
-app.use(express.static(__dirname+"/public"));
-// bodyParser로 stream의 form data를 req.body에 옮겨 담습니다. json data, urlencoded data를 분석해서 req.body를 생성합니다.
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({extended:true})); 
+
 
 // Port setting
 app.listen(3000, function(){
